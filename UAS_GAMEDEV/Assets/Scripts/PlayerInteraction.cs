@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PlayerInteraction : MonoBehaviour
 {
-    [SerializeField] private ushort pickup_range;
+    [SerializeField] private float pickup_range;
     public LayerMask layermask;
     public Camera player_camera;
 
