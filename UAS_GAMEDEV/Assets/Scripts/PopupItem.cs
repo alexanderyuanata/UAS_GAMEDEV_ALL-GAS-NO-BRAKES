@@ -9,5 +9,6 @@ public class PopupItem : InteractableObject
     public override void TryInteract()
     {
         Debug.Log("interacting with popup object");
+        DialogueManager.instance.startDialogue(interact_text);
     }
 }
