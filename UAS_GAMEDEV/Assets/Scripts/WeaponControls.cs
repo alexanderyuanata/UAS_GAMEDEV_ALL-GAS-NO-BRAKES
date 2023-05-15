@@ -10,7 +10,6 @@ public class WeaponControls : MonoBehaviour
 
     private void Update()
     {
-        Debug.Log(characterController.velocity.magnitude);
         anim.SetBool("moving", (characterController.velocity.magnitude > 0f));
     }
 

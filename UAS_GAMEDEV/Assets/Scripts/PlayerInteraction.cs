@@ -18,7 +18,7 @@ public class PlayerInteraction : MonoBehaviour
             //if raycast hits a valid item
             if (Physics.Raycast(ray, out RaycastHit hit, pickup_range, layermask) /**&& hit.collider.CompareTag("Item")**/)
             {
-                hit.collider.gameObject.GetComponent<PickableItem>().TryPickup();
+                hit.collider.gameObject.GetComponent<InteractableObject>().TryInteract();
             }
         }
     }

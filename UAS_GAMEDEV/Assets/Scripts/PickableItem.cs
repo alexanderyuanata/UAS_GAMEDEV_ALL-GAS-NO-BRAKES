@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class PickableItem : MonoBehaviour
+public class PickableItem : InteractableObject
 {
     [SerializeField] private BoxCollider boxcollider;
     [SerializeField] private InventoryItem item_data;
@@ -13,7 +13,7 @@ public class PickableItem : MonoBehaviour
         boxcollider = gameObject.GetComponent<BoxCollider>();
     }
 
-    public void TryPickup()
+    public override void TryInteract()
     {
         Debug.Log(item_data.getName());
         //try and add item, also play pickup SFX
