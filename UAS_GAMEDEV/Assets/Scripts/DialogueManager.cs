@@ -84,8 +84,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        //if in dialogue and player presses E or left clicks
-        if (in_dialogue && (Input.GetKeyDown(KeyCode.E) || Input.GetMouseButtonDown(0)))
+        //if in dialogue and player  left clicks
+        if (in_dialogue && (/**Input.GetKeyDown(KeyCode.E) ||**/ Input.GetMouseButtonDown(0)))
         {
             DisplayNextSentence();
         }

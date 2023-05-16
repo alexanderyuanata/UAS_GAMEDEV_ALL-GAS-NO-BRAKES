@@ -11,10 +11,10 @@ public class PlayerInteraction : MonoBehaviour
     private void Update()
     {
         //if player tries to pick up an item
-        if (Input.GetKeyDown(KeyCode.E))
+        if (Input.GetKeyDown(KeyCode.E) && GameManager.instance.isInputEnabled())
         {
             Ray ray = player_camera.ScreenPointToRay(Input.mousePosition);
-
+            Debug.DrawRay(ray.origin, ray.direction, Color.magenta, 4f);
             //if raycast hits a valid item
             if (Physics.Raycast(ray, out RaycastHit hit, pickup_range, layermask) /**&& hit.collider.CompareTag("Item")**/)
             {

@@ -14,7 +14,7 @@ public class PlayerMovement : MonoBehaviour
     public float gravity = -9.81f;
 
     private Vector3 velocity;
-    private bool enabled = true;
+    private bool _enabled = true;
 
 
     private void Awake()
@@ -24,17 +24,17 @@ public class PlayerMovement : MonoBehaviour
 
     public void enablePlayerMovement()
     {
-        enabled = true;
+        _enabled = true;
     }
 
     public void disablePlayerMovement()
     {
-        enabled = false;
+        _enabled = false;
     }
 
     void Update()
     {
-        if (enabled)
+        if (_enabled)
         {
             float x = Input.GetAxis("Horizontal");
             float z = Input.GetAxis("Vertical");

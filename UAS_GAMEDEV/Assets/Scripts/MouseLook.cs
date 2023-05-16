@@ -11,16 +11,16 @@ public class MouseLook : MonoBehaviour
     public Transform playerBody;
 
     private float xRotation = 0f;
-    private bool enabled = true;
+    private bool _enabled = true;
 
     public void enableMouseLook()
     {
-        enabled = true;
+        _enabled = true;
     }
 
     public void disableMouseLook()
     {
-        enabled = false;
+        _enabled = false;
     }
 
     private void Awake()
@@ -36,7 +36,7 @@ public class MouseLook : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (enabled)
+        if (_enabled)
         {
             float mouseX = Input.GetAxis("Mouse X") * mouseSensitivity * Time.deltaTime;
             float mouseY = Input.GetAxis("Mouse Y") * mouseSensitivity * Time.deltaTime;
