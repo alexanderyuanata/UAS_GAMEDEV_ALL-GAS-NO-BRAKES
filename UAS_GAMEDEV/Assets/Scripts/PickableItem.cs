@@ -4,13 +4,13 @@ using UnityEngine;
 
 public class PickableItem : InteractableObject
 {
-    [SerializeField] private Collider collider;
+    [SerializeField] private Collider objcollider;
     [SerializeField] private InventoryItem item_data;
     [SerializeField] private ushort item_count;
 
     void Start()
     {
-        collider = gameObject.GetComponent<Collider>();
+        objcollider = gameObject.GetComponent<Collider>();
     }
 
     public override void TryInteract()
