@@ -16,7 +16,7 @@ public class InventoryController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (Input.GetKeyDown("e"))
+        if (Input.GetKeyDown(KeyCode.Tab))
         {
             if (inventoryIsClose == true)
             {
