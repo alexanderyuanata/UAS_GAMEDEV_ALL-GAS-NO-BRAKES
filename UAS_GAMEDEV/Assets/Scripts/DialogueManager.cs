@@ -57,6 +57,7 @@ public class DialogueManager : MonoBehaviour
     private IEnumerator displaySentence(string text)
     {
         text_box.text = "";
+        
         foreach (char c in text.ToCharArray())
         {
             text_box.text += c;
