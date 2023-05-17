@@ -1601,6 +1601,68 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
+--- !u!1 &771362087
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 771362088}
+  - component: {fileID: 771362089}
+  - component: {fileID: 771362090}
+  m_Layer: 3
+  m_Name: garage door
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &771362088
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771362087}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0, y: 0, z: 4.496}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1241009968652861653}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &771362089
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771362087}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 3.99, y: 4.17, z: 0.1}
+  m_Center: {x: 0, y: 2.06, z: 0}
+--- !u!114 &771362090
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 771362087}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue_text:
+  - It's a garage door.
+  - No light seeps through it.
+  - The doors won't budge.
 --- !u!1 &814735126
 GameObject:
   m_ObjectHideFlags: 0
@@ -1721,7 +1783,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 8300000, guid: 215b2a03c2d0faf45802e2785e452cc6, type: 3}
   m_PlayOnAwake: 1
-  m_Volume: 0.258
+  m_Volume: 0.07
   m_Pitch: 1
   Loop: 1
   Mute: 0
@@ -1937,8 +1999,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - It's a pile of VHS tapes.
+  dialogue_text:
+  - A pile of VHS tapes.
 --- !u!64 &987746284
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2065,9 +2127,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
+  dialogue_text:
   - It's a tape recorder.
-  - You could record your experiences if you have some tape.
+  - Someone must have been recording using the tapes beside it.
 --- !u!64 &1036140912
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -2330,6 +2392,7 @@ Transform:
   - {fileID: 138445225}
   - {fileID: 879786456}
   - {fileID: 1582900149}
+  - {fileID: 1664185497}
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -2511,6 +2574,7 @@ GameObject:
   - component: {fileID: 1171742679}
   - component: {fileID: 1171742678}
   - component: {fileID: 1171742683}
+  - component: {fileID: 1171742684}
   m_Layer: 3
   m_Name: paper
   m_TagString: Item
@@ -2855,6 +2919,23 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogue_entries:
   - text_entry: 
+  - text_entry: 
+--- !u!114 &1171742684
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1171742675}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  dialogue_text:
+  - It's a piece of paper.
+  - A sentence is written in blood.
+  - '"Forgive me."'
 --- !u!1 &1206031862
 GameObject:
   m_ObjectHideFlags: 0
@@ -3027,6 +3108,51 @@ LightingSettings:
   m_PVRFilteringAtrousPositionSigmaAO: 1
   m_PVRTiledBaking: 0
   m_NumRaysToShootPerTexel: -1
+--- !u!1 &1441282627
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1441282628}
+  - component: {fileID: 1441282629}
+  m_Layer: 0
+  m_Name: Collisionholder
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1441282628
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441282627}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.539, y: -6.794, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 8569579831651593687}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!65 &1441282629
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1441282627}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.6, y: 2.38, z: 1.86}
+  m_Center: {x: -0.23, y: 0, z: -0.63}
 --- !u!1 &1487580991
 GameObject:
   m_ObjectHideFlags: 0
@@ -3423,7 +3549,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b11e0324b9d784f84200d2078eeb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  objcollider: {fileID: 0}
   item_data: {fileID: 11400000, guid: 527c2093631e5424fae3d87ee28b52ba, type: 2}
   item_count: 3
 --- !u!64 &1567273822
@@ -3488,6 +3614,154 @@ MonoBehaviour:
   meshFilters:
   - {fileID: 0}
   - {fileID: 0}
+--- !u!1 &1664185496
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1664185497}
+  - component: {fileID: 1664185499}
+  - component: {fileID: 1664185498}
+  m_Layer: 0
+  m_Name: Whispers
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1664185497
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664185496}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 1086950929}
+  m_RootOrder: -1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1664185498
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664185496}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d8c1a3036b417644d9da95e32a10e192, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  max_timer: 6
+  whisper_chance: 40
+  whisper_clips:
+  - {fileID: 8300000, guid: 231727e134e09f746b2c469339eced89, type: 3}
+  - {fileID: 8300000, guid: dcdd8b2973b36c04c8d57a3219f5281a, type: 3}
+  - {fileID: 8300000, guid: 21529b4c64a61f348af6a888db122666, type: 3}
+  - {fileID: 8300000, guid: 2c8ec248ec5e413418e79e277f1df45a, type: 3}
+--- !u!82 &1664185499
+AudioSource:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1664185496}
+  m_Enabled: 1
+  serializedVersion: 4
+  OutputAudioMixerGroup: {fileID: 0}
+  m_audioClip: {fileID: 0}
+  m_PlayOnAwake: 0
+  m_Volume: 0.02
+  m_Pitch: 1
+  Loop: 0
+  Mute: 0
+  Spatialize: 0
+  SpatializePostEffects: 0
+  Priority: 128
+  DopplerLevel: 1
+  MinDistance: 1
+  MaxDistance: 500
+  Pan2D: 0
+  rolloffMode: 0
+  BypassEffects: 0
+  BypassListenerEffects: 0
+  BypassReverbZones: 0
+  rolloffCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  panLevelCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  spreadCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
+  reverbZoneMixCustomCurve:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 1
+      inSlope: 0
+      outSlope: 0
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.33333334
+    m_PreInfinity: 2
+    m_PostInfinity: 2
+    m_RotationOrder: 4
 --- !u!1 &1726364962
 GameObject:
   m_ObjectHideFlags: 0
@@ -3573,8 +3847,8 @@ MonoBehaviour:
   m_faceColor:
     serializedVersion: 2
     rgba: 4294967295
-  m_fontSize: 50
-  m_fontSizeBase: 50
+  m_fontSize: 64
+  m_fontSizeBase: 64
   m_fontWeight: 400
   m_enableAutoSizing: 0
   m_fontSizeMin: 18
@@ -4897,6 +5171,7 @@ Transform:
   - {fileID: 227284669846450249}
   - {fileID: 1567273818}
   - {fileID: 8559484214934006921}
+  - {fileID: 771362088}
   m_Father: {fileID: 0}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -6989,7 +7264,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f3b11e0324b9d784f84200d2078eeb62, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  collider: {fileID: 0}
+  objcollider: {fileID: 0}
   item_data: {fileID: 11400000, guid: 527c2093631e5424fae3d87ee28b52ba, type: 2}
   item_count: 2
 --- !u!64 &3785453224347697134
@@ -8272,9 +8547,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - It's a portrait of what seems to be a happy family.
-  - Somehow it gives you a sinister feeling.
+  dialogue_text:
+  - A family portrait.
+  - You feel an unreasonable sense of disgust towards it.
 --- !u!64 &6040942106783604905
 MeshCollider:
   m_ObjectHideFlags: 0
@@ -9522,9 +9797,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - It's a floodlight.
-  - The bulbs look like they have burnt out.
+  dialogue_text:
+  - It's an industrial floodlight.
+  - The bulbs seems to be burnt out.
 --- !u!4 &7881092621432145180
 Transform:
   m_ObjectHideFlags: 0
@@ -9801,9 +10076,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - Some industrial pipes.
-  - You don't hear any fluids inside.
+  dialogue_text:
+  - Industrial pipes.
 --- !u!1 &8324470618366711043
 GameObject:
   m_ObjectHideFlags: 0
@@ -10047,7 +10321,8 @@ Transform:
   m_LocalPosition: {x: 4.3781786, y: 0.26018667, z: 1.7891341}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_ConstrainProportionsScale: 0
-  m_Children: []
+  m_Children:
+  - {fileID: 1441282628}
   m_Father: {fileID: 1241009968652861653}
   m_RootOrder: -1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10077,8 +10352,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - It's a pile of cardboard boxes and random junk.
+  dialogue_text:
+  - A pile of cardboard boxes.
 --- !u!4 &8581199065504286248
 Transform:
   m_ObjectHideFlags: 0
@@ -10218,9 +10493,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55474aea00148b4418433bc24d3bd149, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interact_text:
-  - It's a framed photo of an old person holding a smiling baby.
-  - You feel a sense of relief from it.
+  dialogue_text:
+  - It's a photo of a grandfather holding a baby.
+  - You feel a sense of regret.
 --- !u!64 &8777164458494438662
 MeshCollider:
   m_ObjectHideFlags: 0
