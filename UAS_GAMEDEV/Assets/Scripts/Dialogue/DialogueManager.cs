@@ -44,6 +44,7 @@ public class DialogueManager : MonoBehaviour
 
     private void DisplayNextSentence()
     {
+        SFXManager1.instance.playDialogueSFX();
         if (sentences.Count == 0)
         {
             StartCoroutine(fadeOutDialogue());

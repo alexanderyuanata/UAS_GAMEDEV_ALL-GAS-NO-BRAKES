@@ -21,4 +21,10 @@ public class SFXManager1 : MonoBehaviour
         self.clip = clips[0];
         self.Play();
     }
+
+    public void playDialogueSFX()
+    {
+        self.clip = clips[1];
+        self.Play();
+    }
 }

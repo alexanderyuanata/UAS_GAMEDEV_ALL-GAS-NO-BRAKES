@@ -3338,7 +3338,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24122
+  m_Name: pb_Mesh24126
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2
@@ -4347,6 +4347,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clips:
   - {fileID: 8300000, guid: cf4b73f8537632d46afc5f3bcbef8d54, type: 3}
+  - {fileID: 8300000, guid: f10fc5d455c252f4dadee865af39bc7b, type: 3}
 --- !u!82 &2040873579
 AudioSource:
   m_ObjectHideFlags: 0
@@ -4359,7 +4360,7 @@ AudioSource:
   OutputAudioMixerGroup: {fileID: 0}
   m_audioClip: {fileID: 0}
   m_PlayOnAwake: 0
-  m_Volume: 0.316
+  m_Volume: 0.115
   m_Pitch: 1
   Loop: 0
   Mute: 0
