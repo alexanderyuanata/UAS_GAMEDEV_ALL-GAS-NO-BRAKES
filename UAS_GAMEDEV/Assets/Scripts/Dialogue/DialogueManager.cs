@@ -13,6 +13,9 @@ public class DialogueManager : MonoBehaviour
     private CanvasGroup dialogue_box;
     private bool in_dialogue = false;
 
+    private IEnumerator text_printer;
+    private bool text_running = false;
+
     private void Awake()
     {
         instance = this;
@@ -33,7 +36,6 @@ public class DialogueManager : MonoBehaviour
         //load all dialogue into the queue
         foreach (string sentence in dialogue)
         {
-            Debug.Log(sentence);
             sentences.Enqueue(sentence);
         }
 
@@ -51,18 +53,30 @@ public class DialogueManager : MonoBehaviour
             return;
         }
 
-        StartCoroutine(displaySentence(sentences.Dequeue()));
+        if (text_running)
+        {
+            StopCoroutine(text_printer);
+            text_printer = displaySentence(sentences.Dequeue());
+            StartCoroutine(text_printer);
+        }
+        else
+        {
+            text_printer = displaySentence(sentences.Dequeue());
+            StartCoroutine(text_printer);
+            text_running = true;
+        }
     }
 
     private IEnumerator displaySentence(string text)
     {
-        text_box.text = "";
-        
+        text_box.text = "";        
         foreach (char c in text.ToCharArray())
         {
             text_box.text += c;
             yield return null;
         }
+
+        text_running = false;
     }
 
     private IEnumerator fadeInDialogue()
