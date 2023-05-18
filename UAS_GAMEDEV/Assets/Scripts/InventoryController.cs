@@ -6,11 +6,9 @@ public class InventoryController : MonoBehaviour
 {
     public GameObject Inventory;
     public bool inventoryIsClose;
-
-    // Start is called before the first frame update
     void Start()
     {
-        inventoryIsClose = false;
+        inventoryIsClose = true;
     }
 
     // Update is called once per frame

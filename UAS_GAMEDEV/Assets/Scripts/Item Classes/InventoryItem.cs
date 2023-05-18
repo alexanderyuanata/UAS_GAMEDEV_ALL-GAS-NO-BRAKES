@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
 
+[System.Serializable]
 public abstract class InventoryItem : ScriptableObject
 {
     public int ID = -1;
@@ -21,11 +22,16 @@ public abstract class InventoryItem : ScriptableObject
     //get
     public int getID()
     {
-        return this.ID;
+        return ID;
     }
 
     public string getName()
     {
-        return this._name;
+        return _name;
+    }
+
+    public ushort getMaxStacks()
+    {
+        return _max_stacks;
     }
 }

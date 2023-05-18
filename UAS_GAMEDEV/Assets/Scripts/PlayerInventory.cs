@@ -3,9 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+[System.Serializable]
 public class PlayerInventory : MonoBehaviour
 {
-    public List<ItemInsideInventory> inventoryItems = new List<ItemInsideInventory>();
+    [SerializeField] private List<ItemInsideInventory> inventoryItems;
     [SerializeField] private ushort max_items;
     public static PlayerInventory instance;
 
@@ -14,12 +15,18 @@ public class PlayerInventory : MonoBehaviour
         instance = this;
     }
 
-    public InventoryItem equipped_weapon;
+    private void Start()
+    {
+        inventoryItems = new List<ItemInsideInventory>();
+    }
 
+    [SerializeField] private Item_Weapons equipped_weapon;
+
+    [System.Serializable]
     public class ItemInsideInventory
     {
-        private InventoryItem item;
-        private ushort count;
+        [SerializeField] private InventoryItem item;
+        [SerializeField] private ushort count;
 
         public ItemInsideInventory(InventoryItem item, ushort count)
         {
@@ -51,7 +58,7 @@ public class PlayerInventory : MonoBehaviour
     }
 
     //methods
-    public void setWeapon(InventoryItem weapon)
+    public void setWeapon(Item_Weapons weapon)
     {
         this.equipped_weapon = weapon;
     }
@@ -61,14 +68,22 @@ public class PlayerInventory : MonoBehaviour
         this.equipped_weapon = null;
     }
 
-    public void addItem(InventoryItem item, ushort count)
+    public bool checkItem(InventoryItem item_tocheck)
     {
-        //if amount of items exceed max amount then abort
-        if (inventoryItems.Count + 1 >= max_items)
+        foreach (ItemInsideInventory element in inventoryItems)
         {
-            Debug.Log("Too much item in inventory to add");
+            if (element.getItem() == item_tocheck) return true;
         }
 
+        return false;
+    }
+
+    public bool addItem(InventoryItem item, ushort count)
+    {
+        bool duplicate_stack = false;
+        ushort remainder = 0;
+
+        //check if the item already exists inside the inventory
         foreach (ItemInsideInventory element in inventoryItems)
         {
             //if the item is already inside
@@ -79,18 +94,41 @@ public class PlayerInventory : MonoBehaviour
                 {
                     Debug.Log("Item count increased");
                     element.addCount(count);
-                    return;
+                    return true;
                 }
+                //if not then try making another stack
                 else
                 {
-                    Debug.Log("Too much item in one stack");
-                    return;
+                    Debug.Log("Too much item in one stack, trying making another stack");
+                    duplicate_stack = true;
+                    //get how much item will overflow from the stack
+                    remainder = (ushort)((element.getCount() + count) - element.getItem().getMaxStacks());
+                    element.addCount((ushort)(element.getCount() - remainder));
+                    break;
                 }
             }
         }
 
-        //add new item to inventory
-        Debug.Log("Added new item to inventory");
-        inventoryItems.Add(new ItemInsideInventory(item, count));
+        //if amount of items exceed max amount then abort
+        if (inventoryItems.Count + 1 >= max_items)
+        {
+            Debug.Log("Too much item in inventory to add a new item");
+            return (false || duplicate_stack);
+        }
+        else
+        {
+            //add new item to inventory
+            Debug.Log("Added new item to inventory");
+            if (duplicate_stack)
+            {
+                inventoryItems.Add(new ItemInsideInventory(item, remainder));
+            }
+            else
+            {
+                inventoryItems.Add(new ItemInsideInventory(item, count));
+            }
+            
+            return true;
+        }
     }
 }
