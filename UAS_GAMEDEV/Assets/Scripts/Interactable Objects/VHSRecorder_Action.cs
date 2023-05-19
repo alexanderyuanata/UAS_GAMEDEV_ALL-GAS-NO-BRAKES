@@ -8,6 +8,5 @@ public class VHSRecorder_Action : PuzzleAction
     public override void action()
     {
         if (!src.isPlaying) src.Play();
-        Debug.Log(src.isPlaying);
     }
 }
