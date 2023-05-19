@@ -5,6 +5,7 @@ using UnityEngine;
 public class InventoryController : MonoBehaviour
 {
     public GameObject Inventory;
+    public GameObject Toolbar;
     public bool inventoryIsClose;
     void Start()
     {
@@ -19,10 +20,12 @@ public class InventoryController : MonoBehaviour
             if (inventoryIsClose == true)
             {
                 Inventory.SetActive(true);
+                Toolbar.SetActive(false);
                 inventoryIsClose = false;
             } else
             {
                 Inventory.SetActive(false);
+                Toolbar.SetActive(true);
                 inventoryIsClose = true;
             }
         }
