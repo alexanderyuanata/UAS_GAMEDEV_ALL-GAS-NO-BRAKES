@@ -8,9 +8,15 @@ using UnityEngine;
 
 public class ItemDatabase : ScriptableObject
 {
+    public static ItemDatabase instance;
     [SerializeField] private List<InventoryItem> _ItemDatabase;
 
     [ContextMenu("Load Item Data")]
+
+    private void Awake()
+    {
+        instance = this;
+    }
     public void loadItems()
     {
         _ItemDatabase = new List<InventoryItem>();

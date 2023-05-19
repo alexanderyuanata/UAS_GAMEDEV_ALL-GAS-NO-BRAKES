@@ -248,7 +248,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8950970907574381326, guid: 1254c796887b5d74f871e90fc3f96fda, type: 3}
       propertyPath: jumpHeight
-      value: 0.8
+      value: 0.6
       objectReference: {fileID: 0}
     - target: {fileID: 8950970907574381426, guid: 1254c796887b5d74f871e90fc3f96fda, type: 3}
       propertyPath: m_Name
@@ -1945,7 +1945,7 @@ GameObject:
   - component: {fileID: 987746285}
   - component: {fileID: 987746284}
   - component: {fileID: 987746288}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: vhs tapes
   m_TagString: Untagged
   m_Icon: {fileID: 0}
