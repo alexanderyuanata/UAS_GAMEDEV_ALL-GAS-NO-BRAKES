@@ -6,6 +6,7 @@ public class InventoryController : MonoBehaviour
 {
     public GameObject Inventory;
     public GameObject Toolbar;
+    public GameObject Crosshair;
     public bool inventoryIsClose;
     void Start()
     {
@@ -21,11 +22,13 @@ public class InventoryController : MonoBehaviour
             {
                 Inventory.SetActive(true);
                 Toolbar.SetActive(false);
+                Crosshair.SetActive(false);
                 inventoryIsClose = false;
             } else
             {
                 Inventory.SetActive(false);
                 Toolbar.SetActive(true);
+                Crosshair.SetActive(true);
                 inventoryIsClose = true;
             }
         }

@@ -10,6 +10,12 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private ushort max_items;
     public static PlayerInventory instance;
 
+    public List<ItemInsideInventory> InventoryItems
+    {
+        get { return inventoryItems; }
+        set { inventoryItems = value; }
+    }
+
     private void Awake()
     {
         instance = this;
@@ -131,4 +137,9 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
     }
+    // Define a delegate type for the event
+    public delegate void InventoryChangeDelegate();
+
+    // Define the event using the delegate
+    public event InventoryChangeDelegate OnInventoryChange;
 }

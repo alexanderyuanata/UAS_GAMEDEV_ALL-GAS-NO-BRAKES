@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEditor;
 using UnityEngine;
+using UnityEngine.EventSystems;
 
 [System.Serializable]
 public abstract class InventoryItem : ScriptableObject
@@ -17,6 +18,12 @@ public abstract class InventoryItem : ScriptableObject
     public bool canAddItem(ushort initial, ushort to_add)
     {
         return (initial + to_add) <= this._max_stacks;
+    }
+    public void SetItem(InventoryItem inventoryItem)
+    {
+        // Update the icon image based on the inventory item
+        iconImage.sprite = inventoryItem.Icon;
+        // Additional code to handle other properties of the inventory item
     }
 
     //get
