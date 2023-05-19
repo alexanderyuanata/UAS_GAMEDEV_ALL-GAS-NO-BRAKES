@@ -3417,8 +3417,8 @@ CharacterController:
   serializedVersion: 2
   m_Height: 3.8
   m_Radius: 0.6
-  m_SlopeLimit: 10
-  m_StepOffset: 0
+  m_SlopeLimit: 45
+  m_StepOffset: 0.7
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -9497,6 +9497,9 @@ MonoBehaviour:
   weapon_data: {fileID: 11400000, guid: 92fba98b17ea478409f2d4f6c53a36db, type: 2}
   anim: {fileID: 6418909891109594178}
   characterController: {fileID: 1487580994}
+  damage: 10
+  range: 50
+  fpsCam: {fileID: 963194227}
 --- !u!1 &6438786908986871633
 GameObject:
   m_ObjectHideFlags: 0
