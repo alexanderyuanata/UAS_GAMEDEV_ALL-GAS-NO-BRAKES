@@ -38,7 +38,7 @@ RenderSettings:
   m_ReflectionIntensity: 1
   m_CustomReflection: {fileID: 0}
   m_Sun: {fileID: 0}
-  m_IndirectSpecularColor: {r: 0.37311953, g: 0.38074014, b: 0.3587274, a: 1}
+  m_IndirectSpecularColor: {r: 0.3731193, g: 0.38073996, b: 0.35872698, a: 1}
   m_UseRadianceAmbientProbe: 0
 --- !u!157 &3
 LightmapSettings:
@@ -198,6 +198,10 @@ PrefabInstance:
     serializedVersion: 2
     m_TransformParent: {fileID: 390496295}
     m_Modifications:
+    - target: {fileID: 2678709480013504526, guid: 1254c796887b5d74f871e90fc3f96fda, type: 3}
+      propertyPath: m_Enabled
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 2678709480013504526, guid: 1254c796887b5d74f871e90fc3f96fda, type: 3}
       propertyPath: muzzleFlash
       value: 
@@ -6220,6 +6224,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   Inventory: {fileID: 388107158}
   Toolbar: {fileID: 0}
+  Crosshair: {fileID: 814735126}
   inventoryIsClose: 1
 --- !u!1 &561826199
 GameObject:
@@ -8153,7 +8158,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh34078
+  m_Name: pb_Mesh24836
   serializedVersion: 11
   m_SubMeshes:
   - serializedVersion: 2

@@ -21,13 +21,13 @@ public class InventoryController : MonoBehaviour
             if (inventoryIsClose == true)
             {
                 Inventory.SetActive(true);
-                Toolbar.SetActive(false);
+                //Toolbar.SetActive(false);
                 Crosshair.SetActive(false);
                 inventoryIsClose = false;
             } else
             {
                 Inventory.SetActive(false);
-                Toolbar.SetActive(true);
+                //Toolbar.SetActive(true);
                 Crosshair.SetActive(true);
                 inventoryIsClose = true;
             }
