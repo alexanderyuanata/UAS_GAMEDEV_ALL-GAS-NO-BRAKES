@@ -84,6 +84,16 @@ public class PlayerInventory : MonoBehaviour
         return false;
     }
 
+    public ItemInsideInventory getItem(InventoryItem item_toget)
+    {
+        foreach (ItemInsideInventory item in inventoryItems)
+        {
+            if (item.getItem() == item_toget) return item;
+        }
+
+        return null;
+    }
+
     public bool addItem(InventoryItem item, ushort count)
     {
         bool duplicate_stack = false;
@@ -137,9 +147,5 @@ public class PlayerInventory : MonoBehaviour
             return true;
         }
     }
-    // Define a delegate type for the event
-    public delegate void InventoryChangeDelegate();
 
-    // Define the event using the delegate
-    public event InventoryChangeDelegate OnInventoryChange;
 }
