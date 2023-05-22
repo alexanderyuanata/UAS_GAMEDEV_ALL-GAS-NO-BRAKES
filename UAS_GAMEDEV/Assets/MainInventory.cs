@@ -45,7 +45,7 @@ public class InventoryUI : MonoBehaviour
 
             // Set the properties of the inventory slot based on the item data
             InventoryItem slotUI = slot.GetComponent<InventoryItem>();
-            slotUI.SetItem(inventoryItem.getItem().getID());
+            
         }
     }
 }

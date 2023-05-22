@@ -19,12 +19,6 @@ public abstract class InventoryItem : ScriptableObject
     {
         return (initial + to_add) <= this._max_stacks;
     }
-    public void SetItem(InventoryItem inventoryItem)
-    {
-        // Update the icon image based on the inventory item
-        iconImage.sprite = inventoryItem.Icon;
-        // Additional code to handle other properties of the inventory item
-    }
 
     //get
     public int getID()
