@@ -21,6 +21,12 @@ public abstract class InventoryItem : ScriptableObject
     }
 
     //get
+    public Sprite icon
+    {
+        get { return _icon; }
+        set { _icon = value; }
+    }
+
     public int getID()
     {
         return ID;

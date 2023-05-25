@@ -21,6 +21,7 @@ public class InventoryController : MonoBehaviour
             if (inventoryIsClose == true)
             {
                 Inventory.SetActive(true);
+                InventoryManager.instance.updateInventory();
                 //Toolbar.SetActive(false);
                 Crosshair.SetActive(false);
                 inventoryIsClose = false;

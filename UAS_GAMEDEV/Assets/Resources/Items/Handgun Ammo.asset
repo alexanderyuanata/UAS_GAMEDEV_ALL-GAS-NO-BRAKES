@@ -16,4 +16,4 @@ MonoBehaviour:
   _name: Handgun Ammo
   _description: 9mm ammunition for a one-handed pistol, easily bought at gun stores.
   _max_stacks: 18
-  _icon: {fileID: 21300000, guid: 8a983cd5bf25f2c4a86ac1606ac0e938, type: 3}
+  _icon: {fileID: 21300000, guid: 25e4aa25d1cd2f448ac378465ac6a129, type: 3}
