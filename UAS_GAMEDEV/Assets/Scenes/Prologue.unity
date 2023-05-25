@@ -7495,7 +7495,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c2fcd52f354453541ac930218ae7f3fd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  ActionScript: {fileID: 1036140917}
   initial_dialogue:
   - It's a tape recorder.
   - Judging by the VHS tapes next to it, the recorder probably takes VHS tapes.
@@ -7503,10 +7502,12 @@ MonoBehaviour:
   - condition_item: {fileID: 11400000, guid: 987424bac096be141b14e8f32fd36932, type: 2}
     condition_response:
     - The tape starts playing.
+    script: {fileID: 1036140917}
+    do_action: 1
+    priority: 0
   exception_response:
   - You don't have anything to play on it.
   play_exception: 1
-  do_action: 1
 --- !u!114 &1036140917
 MonoBehaviour:
   m_ObjectHideFlags: 0

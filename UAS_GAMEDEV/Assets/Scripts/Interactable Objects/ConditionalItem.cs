@@ -5,9 +5,6 @@ using UnityEngine;
 
 public class ConditionalItem : InteractableObject
 {
-    [SerializeField]
-    private PuzzleAction ActionScript;
-
     [Tooltip("Dialog inisial yang ditampilkan")]
     [SerializeField]
     [TextArea(1, 3)]
@@ -23,16 +20,15 @@ public class ConditionalItem : InteractableObject
     private string[] exception_response;
 
     [SerializeField] private bool play_exception = false;
-    [SerializeField] private bool do_action = false;
-    private bool condition_found = false;
 
     [System.Serializable]
     private class ConditionBranches
     {
-        [Tooltip("Item yang akan dicek keberadaannya")]
         [SerializeField] private InventoryItem condition_item;
-        [Tooltip("Dialog jika kondisi dipenuhi")]
         [SerializeField][TextArea(1, 3)] private string[] condition_response;
+        [SerializeField] private PuzzleAction script;
+        [SerializeField] private bool do_action = false;
+        [SerializeField] private ushort priority = 0;
 
         public ConditionBranches(InventoryItem item, string[] responses)
         {
@@ -42,45 +38,57 @@ public class ConditionalItem : InteractableObject
 
         public string[] responses
         {
-            get
-            {
-                return condition_response;
-            }
+            get { return condition_response; }
         }
 
         public InventoryItem conditional_item
         {
-            get
-            {
-                return condition_item;
-            }
+            get { return condition_item; }
+        }
+
+        public ushort priorities
+        {
+            get { return priority; }
+        }
+
+        public void playAction()
+        {
+            if (do_action) script.action();
         }
     }
 
     private void Start()
     {
-        if (ActionScript == null && do_action)
-        {
-            ActionScript = gameObject.GetComponent<PuzzleAction>();
-        }
     }
 
     public override void TryInteract()
     {
         string[] final_dialogue = initial_dialogue;
+        ConditionBranches chosen_condition = null;
 
         foreach (var condition in conditions)
         {
             if (PlayerInventory.instance.checkItem(condition.conditional_item))
             {
-                final_dialogue = final_dialogue.Concat(condition.responses).ToArray();
-                if (do_action) ActionScript.action();
-                condition_found = true;
-                break;
+                if (chosen_condition == null)
+                {
+                    chosen_condition = condition;
+                }
+                
+                if (chosen_condition.priorities >= condition.priorities)
+                {
+                    chosen_condition = condition;
+                }
+                
             }
         }
+        if (chosen_condition != null)
+        {
+            final_dialogue = final_dialogue.Concat(chosen_condition.responses).ToArray();
+            chosen_condition.playAction();
+        }
 
-        if (!condition_found && play_exception) final_dialogue = final_dialogue.Concat(exception_response).ToArray();
+        if (chosen_condition == null && play_exception) final_dialogue = final_dialogue.Concat(exception_response).ToArray();
 
         DialogueManager.instance.startDialogue(final_dialogue);
     }
