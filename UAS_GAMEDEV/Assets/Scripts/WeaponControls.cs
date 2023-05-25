@@ -22,7 +22,6 @@ public class WeaponControls : MonoBehaviour
             Shoot();
         }
     }
-
     void Shoot()
     {
         muzzleFlash.Play();
