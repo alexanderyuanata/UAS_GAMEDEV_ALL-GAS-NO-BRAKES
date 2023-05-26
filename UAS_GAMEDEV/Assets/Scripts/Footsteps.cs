@@ -10,7 +10,12 @@ public class Footsteps : MonoBehaviour
     {
         if(Input.GetKey(KeyCode.W) || Input.GetKey(KeyCode.A) || Input.GetKey(KeyCode.S) || Input.GetKey(KeyCode.D))
         {
-            if(Input.GetKey(KeyCode.LeftShift))
+            if(Input.GetKey(KeyCode.C))
+            {
+                walking.enabled = false;
+                running.enabled = false;
+            }
+            else if (Input.GetKey(KeyCode.LeftShift))
             {
                 walking.enabled = false;
                 running.enabled = true;
