@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using System.Reflection;
 using UnityEngine;
 using UnityEngine.AI;
 using static UnityEngine.GraphicsBuffer;
@@ -11,6 +12,7 @@ public class EnemyController : MonoBehaviour
     [SerializeField] GameObject player;
     [SerializeField] GameObject eyes;
     [SerializeField] NavMeshAgent agent;
+    [SerializeField] Animator animator;
 
     [Header("PATROL POINTS")]
     [SerializeField] Transform[] patrol_points;
@@ -20,10 +22,19 @@ public class EnemyController : MonoBehaviour
     [SerializeField] private float base_speed;
     [SerializeField] private float chase_speed;
     [SerializeField] private float sight_range;
-    [Space(4)]
+    [SerializeField] private float hearing_range;
+    [Space(10)]
     [SerializeField] private float idle_time;
     [SerializeField] private float chasing_time;
     [SerializeField] private float tracking_time;
+    [Space(10)]
+    [SerializeField] private float attack_range;
+
+    [Header("MUSIC & SFX")]
+    [SerializeField] private AudioSource scream_source;
+    [SerializeField] private AudioSource footstep_source;
+    [SerializeField] private AudioSource heartbeat_source;
+    [SerializeField] private AudioSource bite_source;
 
     private float idle_timer;
     private float chasing_timer;
@@ -44,6 +55,10 @@ public class EnemyController : MonoBehaviour
         COOLDOWN
     }
     
+    private void triggerGameOver()
+    {
+        GameManager.instance.gameOver();
+    }
 
     private Vector3 getPatrolPts()
     {
@@ -68,29 +83,51 @@ public class EnemyController : MonoBehaviour
         return min_spot;
     }
 
+    private void StartBiteSound()
+    {
+        if (scream_source.isPlaying) scream_source.Stop();
+        bite_source.Play();
+    }
+
+    private void Alerted()
+    {
+        if (!is_chasing)
+        {
+            current_state = state.ALERT;
+            scream_source.Play();
+        }
+        else
+        {
+            if (isPlayerVisible() && Vector3.Distance(gameObject.transform.position, player.transform.position) < attack_range)
+            {
+                PlayerDeath.instance.triggerDeathCam();
+                agent.isStopped = true;
+                
+                animator.SetTrigger("kill");
+            }
+            else
+            {
+                chasing_timer = chasing_time;
+                tracking_timer = tracking_time;
+                agent.SetDestination(player.transform.position);
+            }
+        }
+    }
+
     private bool isPlayerVisible()
     {
         //if player enters possible LOS
         if (Vector3.Angle(eyes.transform.forward, (player.transform.position - eyes.transform.position)) <= sight_angle / 2f)
         {
+            Debug.DrawRay(eyes.transform.position, player.transform.position - eyes.transform.position, Color.red);
             //checks using raycasting if player is within los
             RaycastHit check;
             if (Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out check, sight_range))
             {
+                Debug.Log(check.transform.tag);
                 if (check.transform.tag == "Player")
                 {
                     Debug.DrawLine(eyes.transform.position, check.transform.position, Color.blue);
-                    if (!is_chasing)
-                    {
-                        current_state = state.ALERT;
-                    }
-                    else
-                    {
-                        chasing_timer = chasing_time;
-                        tracking_timer = tracking_time;
-                        agent.SetDestination(player.transform.position);
-                    }
-
                     return true;
                 }
             }
@@ -112,7 +149,13 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        isPlayerVisible();
+        if (isPlayerVisible() || (PlayerMovement.instance.isRunning() && Vector3.Distance(transform.position, player.transform.position) <= hearing_range))
+        {
+            Alerted();
+        }
+
+        animator.SetBool("walking", agent.velocity.magnitude > 0.1f);
+        animator.SetBool("chasing", is_chasing);
 
         switch (current_state)
         {
@@ -161,6 +204,7 @@ public class EnemyController : MonoBehaviour
                 current_state = state.CHASING;
                 break;
 
+            //enemy trying to chase player
             case state.CHASING:
                 if (tracking_timer >= 0f)
                 {

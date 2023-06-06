@@ -1,16 +1,34 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
+using UnityEngine.UI;
 
 public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
+    [SerializeField] private AudioListener player_listener;
+    [SerializeField] private GameObject gameover_screen;
+    [SerializeField] private Image crosshair;
+    [SerializeField] private GameObject pause_screen;
+
     private bool input_enabled = true;
+    private bool paused = false;
+    private bool playing = true;
 
     private void Awake()
     {
         instance = this;
+    }
+
+    private void Start()
+    {
+        gameover_screen.SetActive(false);
+        pause_screen.SetActive(false);
+        resumeGame();
+
+        TooltipScript.instance.startTooltip("the One Who Wanders can hear you running");
     }
 
     public bool isInputEnabled()
@@ -32,12 +50,52 @@ public class GameManager : MonoBehaviour
         PlayerMovement.instance.enabled = false;
     }
 
-    // Update is called once per frame
+    public void gameOver()
+    {
+        pauseGame();
+        gameover_screen.SetActive(true);
+        playing = false;
+    }
+
+    private void pauseGame()
+    {
+        Cursor.lockState = CursorLockMode.Confined;
+        Cursor.visible = true;
+        crosshair.enabled = false;
+
+        AudioListener.pause = true;
+
+        Time.timeScale = 0f;
+    }
+
+    private void resumeGame()
+    {
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        crosshair.enabled = true;
+
+        AudioListener.pause = false;
+
+        Time.timeScale = 1f;
+    }
+
+    
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.Escape))
+        if (Input.GetKeyDown(KeyCode.Escape) && playing)
         {
-            Application.Quit();
+            if (!paused)
+            {
+                pause_screen.SetActive(true);
+                RandomPauseText.instance.genRandText();
+                pauseGame();
+            }
+            else
+            {
+                pause_screen.SetActive(false);
+                resumeGame();
+            }
+            paused = !paused;
         }
     }
 }

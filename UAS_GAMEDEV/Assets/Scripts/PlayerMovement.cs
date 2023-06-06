@@ -26,6 +26,9 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 initial_pos;
     private bool _enabled = true;
     private bool crouching = false;
+    private bool running = false;
+
+    private float crouch_offset;
 
     private void Awake()
     {
@@ -34,7 +37,12 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        
+        crouch_offset = Vector3.Distance(cam.transform.position, crouch_height.transform.position);
+    }
+
+    public bool isRunning()
+    {
+        return running;
     }
 
     public void enablePlayerMovement()
@@ -52,6 +60,7 @@ public class PlayerMovement : MonoBehaviour
         if (_enabled)
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
+            running = Input.GetKey(KeyCode.LeftShift);
 
             if (isGrounded && velocity.y < 0)
             {
@@ -95,6 +104,11 @@ public class PlayerMovement : MonoBehaviour
             {
                 velocity.y -= gravity * Time.deltaTime;
                 controller.Move(velocity * Time.deltaTime);
+            }
+
+            if (Input.GetKey(KeyCode.Q))
+            {
+                
             }
         }
     }
