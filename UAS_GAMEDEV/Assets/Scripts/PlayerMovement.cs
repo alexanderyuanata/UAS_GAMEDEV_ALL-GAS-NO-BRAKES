@@ -15,7 +15,8 @@ public class PlayerMovement : MonoBehaviour
     public float running_speed;
     public float crouching_speed;
     public float gravity;
-    public float jumpHeight;
+    public float crouch_lower_speed;
+    public float running_threshold;
 
     public Transform groundCheck;
     public float groundDistance = 0.4f;
@@ -28,7 +29,15 @@ public class PlayerMovement : MonoBehaviour
     private bool crouching = false;
     private bool running = false;
 
-    private float crouch_offset;
+    private movingStates player_state;
+    private bool is_crouching = false;
+
+    public enum movingStates
+    {
+        RUNNING,
+        WALKING,
+        CROUCHING
+    }
 
     private void Awake()
     {
@@ -37,7 +46,7 @@ public class PlayerMovement : MonoBehaviour
 
     private void Start()
     {
-        crouch_offset = Vector3.Distance(cam.transform.position, crouch_height.transform.position);
+        initial_pos = cam.transform.localPosition;
     }
 
     public bool isRunning()
@@ -55,16 +64,31 @@ public class PlayerMovement : MonoBehaviour
         _enabled = false;
     }
 
+    public movingStates getMoveState()
+    {
+        return player_state;
+    }
+
     void Update()
     {
         if (_enabled)
         {
             isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance, groundMask);
-            running = Input.GetKey(KeyCode.LeftShift);
+            running = Input.GetKey(KeyCode.LeftShift) && controller.velocity.magnitude >= running_threshold;
+            is_crouching = Input.GetKey(KeyCode.C);
 
             if (isGrounded && velocity.y < 0)
             {
                 velocity.y = -2f;
+            }
+
+            if (is_crouching)
+            {
+                cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, crouch_height.localPosition, crouch_lower_speed * Time.deltaTime);
+            }
+            else
+            {
+                cam.transform.localPosition = Vector3.MoveTowards(cam.transform.localPosition, initial_pos, crouch_lower_speed * Time.deltaTime);
             }
 
             float x = Input.GetAxis("Horizontal");
@@ -72,28 +96,18 @@ public class PlayerMovement : MonoBehaviour
 
             if (Input.GetKey(KeyCode.LeftShift) && !crouching)
             {
+                player_state = movingStates.RUNNING;
                 speed = running_speed;
             }
-            else if (Input.GetKey(KeyCode.C))
+            else if (is_crouching)
             {
+                player_state = movingStates.CROUCHING;
                 speed = crouching_speed;
             }
             else
             {
+                player_state = movingStates.WALKING;
                 speed = walking_speed;
-            }
-            
-            if (Input.GetKeyDown(KeyCode.C))
-            {
-                crouching = true;
-                initial_pos = cam.transform.position;
-                cam.transform.position = crouch_height.position;
-            }
-            else if (Input.GetKeyUp(KeyCode.C))
-            {
-                crouching = false;
-                Vector3 new_pos = new Vector3(cam.transform.position.x, initial_pos.y, cam.transform.position.z);
-                cam.transform.position = new_pos;
             }
 
             Vector3 move = transform.right * x + transform.forward * z;

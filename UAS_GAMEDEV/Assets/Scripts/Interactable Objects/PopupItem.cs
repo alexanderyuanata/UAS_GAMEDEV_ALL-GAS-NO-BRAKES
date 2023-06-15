@@ -4,7 +4,7 @@ using UnityEngine;
 
 public class PopupItem : InteractableObject
 {
-    [SerializeField][TextArea(1, 3)] private string[] dialogue_text;
+    [SerializeField][TextArea(6, 3)] private string[] dialogue_text;
 
     public override void TryInteract()
     {

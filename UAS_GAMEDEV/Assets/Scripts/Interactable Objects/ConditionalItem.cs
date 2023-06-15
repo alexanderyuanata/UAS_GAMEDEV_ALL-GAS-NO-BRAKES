@@ -5,90 +5,67 @@ using UnityEngine;
 
 public class ConditionalItem : InteractableObject
 {
-    [Tooltip("Dialog inisial yang ditampilkan")]
     [SerializeField]
     [TextArea(1, 3)]
     private string[] initial_dialogue;
 
-    [Tooltip("Kondisi-kondisi yang dicek")]
     [SerializeField]
-    private ConditionBranches[] conditions;
+    private InventoryItem[] conditions;
 
-    [Tooltip("Dialog jika tidak ada kondisi terpenuhi")]
+    [SerializeField]
+    [TextArea(1, 3)]
+    private string[] fulfilled_response;
+
     [SerializeField]
     [TextArea(1, 3)]
     private string[] exception_response;
 
     [SerializeField] private bool play_exception = false;
+    [SerializeField] private bool action_onfulfilled = false;
+    [SerializeField] private bool disabled_onfulfilled = false;
+    [SerializeField] PuzzleAction _do;
 
-    [System.Serializable]
-    private class ConditionBranches
-    {
-        [SerializeField] private InventoryItem condition_item;
-        [SerializeField][TextArea(1, 3)] private string[] condition_response;
-        [SerializeField] private PuzzleAction script;
-        [SerializeField] private bool do_action = false;
-        [SerializeField] private ushort priority = 0;
-
-        public ConditionBranches(InventoryItem item, string[] responses)
-        {
-            this.condition_item = item;
-            this.condition_response = responses;
-        }
-
-        public string[] responses
-        {
-            get { return condition_response; }
-        }
-
-        public InventoryItem conditional_item
-        {
-            get { return condition_item; }
-        }
-
-        public ushort priorities
-        {
-            get { return priority; }
-        }
-
-        public void playAction()
-        {
-            if (do_action) script.action();
-        }
-    }
+    private bool disabled = false;
+    private Collider col;
 
     private void Start()
     {
+        if (disabled_onfulfilled)
+        {
+            col = GetComponent<Collider>();
+        }
     }
 
     public override void TryInteract()
     {
+        bool condition_fulfilled = true;
         string[] final_dialogue = initial_dialogue;
-        ConditionBranches chosen_condition = null;
 
         foreach (var condition in conditions)
         {
-            if (PlayerInventory.instance.checkItem(condition.conditional_item))
+            if (!PlayerInventory.instance.checkItem(condition))
             {
-                if (chosen_condition == null)
-                {
-                    chosen_condition = condition;
-                }
-                
-                if (chosen_condition.priorities >= condition.priorities)
-                {
-                    chosen_condition = condition;
-                }
-                
+                if (play_exception) final_dialogue = final_dialogue.Concat(exception_response).ToArray();
+                condition_fulfilled = false;
+                break;
             }
         }
-        if (chosen_condition != null)
-        {
-            final_dialogue = final_dialogue.Concat(chosen_condition.responses).ToArray();
-            chosen_condition.playAction();
-        }
 
-        if (chosen_condition == null && play_exception) final_dialogue = final_dialogue.Concat(exception_response).ToArray();
+        if (condition_fulfilled)
+        {
+            final_dialogue = final_dialogue.Concat(fulfilled_response).ToArray();
+            if (disabled_onfulfilled)
+            {
+                col.enabled = false;
+            }
+
+            if (action_onfulfilled)
+            {
+                Debug.Log("doing action");
+                DialogueManager.instance.startDialogue(final_dialogue, _do);
+                return;
+            }
+        }
 
         DialogueManager.instance.startDialogue(final_dialogue);
     }

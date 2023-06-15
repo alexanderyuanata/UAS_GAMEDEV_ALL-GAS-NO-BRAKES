@@ -8,7 +8,6 @@ public class GameManager : MonoBehaviour
 {
     public static GameManager instance;
 
-    [SerializeField] private AudioListener player_listener;
     [SerializeField] private GameObject gameover_screen;
     [SerializeField] private Image crosshair;
     [SerializeField] private GameObject pause_screen;
@@ -22,13 +21,16 @@ public class GameManager : MonoBehaviour
         instance = this;
     }
 
+    public void setPlaying(bool b)
+    {
+        playing = b;
+    }
+
     private void Start()
     {
         gameover_screen.SetActive(false);
         pause_screen.SetActive(false);
         resumeGame();
-
-        TooltipScript.instance.startTooltip("the One Who Wanders can hear you running");
     }
 
     public bool isInputEnabled()

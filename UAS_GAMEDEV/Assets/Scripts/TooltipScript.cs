@@ -11,9 +11,6 @@ public class TooltipScript : MonoBehaviour
     [SerializeField] private TextMeshProUGUI textmesh;
     [SerializeField] private CanvasGroup canvasGroup;
 
-    [SerializeField] private float appear_time;
-    [SerializeField] private float fade_time;
-
     private bool isFadeFinished = false;
 
     private void Awake()
@@ -30,12 +27,12 @@ public class TooltipScript : MonoBehaviour
         textmesh.enabled = false;
     }
 
-    public void startTooltip(string text)
+    public void startTooltip(string text, float appear_time, float fade_time)
     {
-        StartCoroutine(displayText(text));
+        StartCoroutine(displayText(text, appear_time, fade_time));
     }
 
-    IEnumerator displayText(string text_todisplay)
+    IEnumerator displayText(string text_todisplay, float appear_time, float fade_time)
     {
         textmesh.enabled = true;
         canvasGroup.alpha = 1f;
@@ -44,14 +41,14 @@ public class TooltipScript : MonoBehaviour
         yield return new WaitForSeconds(appear_time);
 
         isFadeFinished = false;
-        StartCoroutine(fadeText());
+        StartCoroutine(fadeText(fade_time));
 
         while (!isFadeFinished) yield return null;
 
         textmesh.enabled = false;
     }
 
-    IEnumerator fadeText()
+    IEnumerator fadeText(float fade_time)
     {
         float timer = 0f;
         float startAlpha = canvasGroup.alpha;

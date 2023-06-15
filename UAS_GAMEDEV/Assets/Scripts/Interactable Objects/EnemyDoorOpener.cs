@@ -10,7 +10,7 @@ public class EnemyDoorOpener : MonoBehaviour
         DoorScript door = other.gameObject.GetComponent<DoorScript>();
         if (door != null)
         {
-            door.TryInteract();
+            door.TryOpen();
         }
     }
 }

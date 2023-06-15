@@ -21,4 +21,9 @@ public class SceneManagement : MonoBehaviour
     {
         Application.Quit();
     }
+
+    public void retryScene()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+    }
 }

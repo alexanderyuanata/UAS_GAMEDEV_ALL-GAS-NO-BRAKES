@@ -8,6 +8,8 @@ using static UnityEngine.GraphicsBuffer;
 
 public class EnemyController : MonoBehaviour
 {
+    public static EnemyController instance;
+
     [Header("REQUIRED OBJECTS")]
     [SerializeField] GameObject player;
     [SerializeField] GameObject eyes;
@@ -30,6 +32,16 @@ public class EnemyController : MonoBehaviour
     [Space(10)]
     [SerializeField] private float attack_range;
 
+    [Header("STEALTH STATS")]
+    [SerializeField] private float alert_threshold;
+    [SerializeField] private float run_alert;
+    [SerializeField] private float walk_alert;
+    [SerializeField] private float crouch_alert;
+    [SerializeField] private float hearing_alert;
+    [SerializeField] private float alert_decay;
+    [SerializeField]
+    private float alert_amount = 0;
+
     [Header("MUSIC & SFX")]
     [SerializeField] private AudioSource scream_source;
     [SerializeField] private AudioSource footstep_source;
@@ -44,6 +56,16 @@ public class EnemyController : MonoBehaviour
     private bool is_idle = false;
     private bool is_searching = false;
     private bool is_chasing = false;
+    private bool is_investigating = false;
+    private Vector3 investigation_loc;
+    private float alert_multiplier = 1f;
+
+    private bool on = false;
+
+    public void setOn(bool b)
+    {
+        on = b;
+    }
 
     enum state
     {
@@ -52,12 +74,16 @@ public class EnemyController : MonoBehaviour
         INVESTIGATING,
         ALERT,
         CHASING,
-        COOLDOWN
     }
     
     private void triggerGameOver()
     {
         GameManager.instance.gameOver();
+    }
+
+    private void Awake()
+    {
+        instance = this;
     }
 
     private Vector3 getPatrolPts()
@@ -89,6 +115,12 @@ public class EnemyController : MonoBehaviour
         bite_source.Play();
     }
 
+    public void Investigate(Vector3 loc)
+    {
+        investigation_loc = loc;
+        current_state = state.INVESTIGATING;
+    }
+
     private void Alerted()
     {
         if (!is_chasing)
@@ -98,7 +130,7 @@ public class EnemyController : MonoBehaviour
         }
         else
         {
-            if (isPlayerVisible() && Vector3.Distance(gameObject.transform.position, player.transform.position) < attack_range)
+            if (isPlayerVisible() && Vector3.Distance(eyes.transform.position, player.transform.position) < attack_range)
             {
                 PlayerDeath.instance.triggerDeathCam();
                 agent.isStopped = true;
@@ -116,15 +148,12 @@ public class EnemyController : MonoBehaviour
 
     private bool isPlayerVisible()
     {
-        //if player enters possible LOS
         if (Vector3.Angle(eyes.transform.forward, (player.transform.position - eyes.transform.position)) <= sight_angle / 2f)
         {
             Debug.DrawRay(eyes.transform.position, player.transform.position - eyes.transform.position, Color.red);
-            //checks using raycasting if player is within los
             RaycastHit check;
             if (Physics.Raycast(eyes.transform.position, player.transform.position - eyes.transform.position, out check, sight_range))
             {
-                Debug.Log(check.transform.tag);
                 if (check.transform.tag == "Player")
                 {
                     Debug.DrawLine(eyes.transform.position, check.transform.position, Color.blue);
@@ -135,6 +164,17 @@ public class EnemyController : MonoBehaviour
 
         return false;
     }
+
+    public float getAlertAmount()
+    {
+        return alert_amount;
+    }
+
+    public float getMaxAlert()
+    {
+        return alert_threshold;
+    }
+
 
     // Start is called before the first frame update
     void Start()
@@ -149,10 +189,53 @@ public class EnemyController : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (isPlayerVisible() || (PlayerMovement.instance.isRunning() && Vector3.Distance(transform.position, player.transform.position) <= hearing_range))
+        if (!on) return;
+        if (PlayerMovement.instance.isRunning() && Vector3.Distance(transform.position, player.transform.position) <= hearing_range)
+        {
+            if (!is_chasing)
+            {
+                is_investigating = false;
+                Investigate(player.transform.position);
+            }
+            else
+            {
+                Alerted();
+            }
+        }
+
+        if (current_state != state.CHASING && current_state != state.ALERT && !isPlayerVisible() && alert_amount > 0f)
+        {
+            alert_amount -= alert_decay * Time.deltaTime;
+        }
+
+        if (isPlayerVisible() && !is_chasing)
+        {
+            switch (PlayerMovement.instance.getMoveState())
+            {
+                case PlayerMovement.movingStates.RUNNING:
+                    alert_amount += run_alert * Time.deltaTime;
+                    break;
+
+                case PlayerMovement.movingStates.WALKING:
+                    alert_amount += walk_alert * Time.deltaTime;
+                    break;
+
+                case PlayerMovement.movingStates.CROUCHING:
+                    alert_amount += crouch_alert * Time.deltaTime;
+                    break;
+            }
+        }
+        else if (isPlayerVisible() && is_chasing)
         {
             Alerted();
         }
+
+        if (alert_amount >= alert_threshold && !is_chasing)
+        {
+            Alerted();
+        }
+
+        alert_amount = Mathf.Clamp(alert_amount, 0f, alert_threshold);
 
         animator.SetBool("walking", agent.velocity.magnitude > 0.1f);
         animator.SetBool("chasing", is_chasing);
@@ -162,6 +245,7 @@ public class EnemyController : MonoBehaviour
             //stays still
             case state.IDLE:
                 is_chasing = false;
+                is_investigating = false;
                 agent.speed = base_speed;
                 if (!is_idle)
                 {
@@ -186,11 +270,26 @@ public class EnemyController : MonoBehaviour
                     agent.SetDestination(getPatrolPts());
                     is_searching = true;
                 }
-                if (agent.remainingDistance <= 0.1f)
+                else if (agent.remainingDistance <= 0.1f)
                 {
                     current_state = state.IDLE;
                     is_searching = false;
                 }
+                break;
+
+            case state.INVESTIGATING:
+                if (!is_investigating)
+                {
+                    agent.SetDestination(investigation_loc);
+                    is_investigating = true;
+                }
+                else if (agent.remainingDistance <= 0.1f)
+                {
+                    is_investigating = false;
+                    is_searching = false;
+                    current_state = state.PATROLLING;
+                }
+
                 break;
 
             //enemy knows player position

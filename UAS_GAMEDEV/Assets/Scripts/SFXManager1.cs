@@ -16,6 +16,13 @@ public class SFXManager1 : MonoBehaviour
         self = GetComponent<AudioSource>();
     }
 
+    public void playClip(AudioClip clip)
+    {
+        self.clip = clip;
+        if (self.isPlaying) self.Stop();
+        self.Play();
+    }
+
     public void playItemPickup()
     {
         self.clip = clips[0];
@@ -26,5 +33,10 @@ public class SFXManager1 : MonoBehaviour
     {
         self.clip = clips[1];
         self.Play();
+    }
+
+    public void stopClip()
+    {
+        self.Stop();
     }
 }

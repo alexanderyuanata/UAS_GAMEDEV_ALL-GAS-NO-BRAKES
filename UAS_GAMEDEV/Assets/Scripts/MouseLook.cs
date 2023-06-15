@@ -5,6 +5,7 @@ using UnityEngine;
 public class MouseLook : MonoBehaviour
 {
     public static MouseLook instance;
+    [SerializeField] Transform flashlight;
 
 
     public float mouseSensitivity = 100f;
